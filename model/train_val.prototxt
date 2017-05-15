@@ -38,10 +38,6 @@ layer {
   }
 }
 
-
-
-
-
 layer {
   name: "conv1"
   type: "Convolution"
@@ -89,11 +85,6 @@ layer {
 
 
 
-
-
-
-
-
 layer {
   name: "conv2-depthwise”
   type: "Convolution"
@@ -102,22 +93,22 @@ layer {
   param {
     lr_mult: 1
     decay_mult: 1
-    block_group_lasso {
-        xdimen: 9
-        ydimen: 32
-        block_decay_mult: 1.0
-    }
+    #block_group_lasso {
+    #    xdimen: 9
+    #    ydimen: 32
+    #    block_decay_mult: 1.0
+    #}
   }
   param {
     lr_mult: 2
     decay_mult: 0
   }
   convolution_param {
-    num_output: 32
+    num_output: 1
     pad: 0
     kernel_size: 3
     stride: 1
-    group: 1
+    group: 32
     weight_filler {
       type: "gaussian"
       std: 0.01
@@ -145,10 +136,6 @@ layer {
   bottom: “norm2-depthwise"
   top: "conv2-depthwise"
 }
-
-
-
-
 layer {
   name: "conv2-pointwise”
   type: "Convolution"
@@ -194,15 +181,6 @@ layer {
   top: "conv3-pointwise"
 }
 
-
-
-여기부터다시..
-탑과 바텀 찾아보고 다시..
-
-
-
-
-
 layer {
   name: "conv3-depthwise”
   type: "Convolution"
@@ -211,22 +189,17 @@ layer {
   param {
     lr_mult: 1
     decay_mult: 1
-    block_group_lasso {
-        xdimen: 9
-        ydimen: 64
-        block_decay_mult: 1.0
-    }
   }
   param {
     lr_mult: 2
     decay_mult: 0
   }
   convolution_param {
-    num_output: 64
+    num_output: 1
     pad: 0
     stride: 2
     kernel_size: 3
-    group: 1
+    group: 64
     weight_filler {
       type: "gaussian"
       std: 0.01
@@ -241,7 +214,7 @@ layer {
   name: "norm3-depthwise”
   type: "LRN"
   bottom: "conv3-depthwise"
-  top: "norm3”
+  top: "norm3-depthwise”
   lrn_param {
     local_size: 5
     alpha: 0.0001
@@ -251,15 +224,14 @@ layer {
 layer {
   name: "relu3-depthwise”
   type: "ReLU"
-  bottom: "conv3-depthwise"
+  bottom: "norm3-depthwise"
   top: "conv3-depthwise"
 }
-
 layer {
   name: "conv3-pointwise”
   type: "Convolution"
-  bottom: "relu2"
-  top: "conv4-pointwise"
+  bottom: "relu3-depthwise"
+  top: "conv3-pointwise"
   param {
     lr_mult: 1
     decay_mult: 1
@@ -296,7 +268,7 @@ layer {
 layer {
   name: "relu3-pointwise”
   type: "ReLU"
-  bottom: "conv3-pointwise"
+  bottom: "norm3-pointwise"
   top: "conv3-pointwise"
 }
 
@@ -311,21 +283,16 @@ layer {
   param {
     lr_mult: 1
     decay_mult: 1
-    block_group_lasso {
-        xdimen: 9
-        ydimen: 128
-        block_decay_mult: 1.0
-    }
   }
   param {
     lr_mult: 2
     decay_mult: 0
   }
   convolution_param {
-    num_output: 128
+    num_output: 1
     pad: 0
     kernel_size: 3
-    group: 1
+    group: 128
     weight_filler {
       type: "gaussian"
       std: 0.01
@@ -340,7 +307,7 @@ layer {
   name: "norm4-depthwise”
   type: "LRN"
   bottom: "conv4-depthwise"
-  top: "norm4”
+  top: "norm4-depthwise”
   lrn_param {
     local_size: 5
     alpha: 0.0001
@@ -350,9 +317,10 @@ layer {
 layer {
   name: "relu4-depthwise”
   type: "ReLU"
-  bottom: "conv4-depthwise"
+  bottom: "norm4-depthwise"
   top: "conv4-depthwise"
 }
+
 
 layer {
   name: "conv4-pointwise”
@@ -395,236 +363,29 @@ layer {
 layer {
   name: "relu4-pointwise”
   type: "ReLU"
-  bottom: "conv4-pointwise"
+  bottom: "norm4-pointwise"
   top: "conv4-pointwise"
 }
 
 
-
-
-
-
-
-
-
-
 layer {
-  name: "conv5-depthwise”
-  type: "Convolution"
-  bottom: "relu4-pointwise”
-  top: "conv5-depthwise"
-  param {
-    lr_mult: 1
-    decay_mult: 1
-    block_group_lasso {
-        xdimen: 9
-        ydimen: 64
-        block_decay_mult: 1.0
-    }
-  }
-  param {
-    lr_mult: 2
-    decay_mult: 0
-  }
-  convolution_param {
-    num_output: 64
-    pad: 0
-    stride: 2
-    kernel_size: 3
-    group: 1
-    weight_filler {
-      type: "gaussian"
-      std: 0.01
-    }
-    bias_filler {
-      type: "constant"
-      value: 0.1
-    }
-  }
-}
-layer {
-  name: "norm5-depthwise”
-  type: "LRN"
-  bottom: "conv5-depthwise"
-  top: "norm5”
-  lrn_param {
-    local_size: 5
-    alpha: 0.0001
-    beta: 0.75
-  }
-}
-layer {
-  name: "relu5-depthwise”
-  type: "ReLU"
-  bottom: "conv5-depthwise"
-  top: "conv5-depthwise"
-}
-
-layer {
-  name: "conv5-pointwise”
-  type: "Convolution"
-  bottom: "relu5”
-  top: "conv5-pointwise"
-  param {
-    lr_mult: 1
-    decay_mult: 1
-  }
-  param {
-    lr_mult: 2
-    decay_mult: 0
-  }
-  convolution_param {
-    num_output: 256
-    pad: 0
-    kernel_size: 1
-    weight_filler {
-      type: "gaussian"
-      std: 0.01
-    }
-    bias_filler {
-      type: "constant"
-      value: 0
-    }
-  }
-}
-layer {
-  name: "norm5-pointwise”
-  type: "LRN"
-  bottom: "conv5-pointwise"
-  top: "norm5-pointwise”
-  lrn_param {
-    local_size: 5
-    alpha: 0.0001
-    beta: 0.75
-  }
-}
-layer {
-  name: "relu5-pointwise”
-  type: "ReLU"
-  bottom: "conv5-pointwise"
-  top: "conv5-pointwise"
-}
-
-
-
-
-
-
-
-
-
-
-layer {
-  name: "conv6-depthwise”
-  type: "Convolution"
-  bottom: "relu5-pointwise”
-  top: "conv6-depthwise"
-  param {
-    lr_mult: 1
-    decay_mult: 1
-    block_group_lasso {
-        xdimen: 9
-        ydimen: 256
-        block_decay_mult: 1.0
-    }
-  }
-  param {
-    lr_mult: 2
-    decay_mult: 0
-  }
-  convolution_param {
-    num_output: 256
-    pad: 0
+  name: "pool5”
+  type: "Pooling"
+  bottom: "conv4-pointwise"
+  top: "pool5”
+  pooling_param {
+    pool: AVE
+    kernel_size: 7
     stride: 1
-    kernel_size: 3
-    group: 1
-    weight_filler {
-      type: "gaussian"
-      std: 0.01
-    }
-    bias_filler {
-      type: "constant"
-      value: 0.1
-    }
   }
 }
-layer {
-  name: "norm5-depthwise”
-  type: "LRN"
-  bottom: "conv5-depthwise"
-  top: "norm5”
-  lrn_param {
-    local_size: 5
-    alpha: 0.0001
-    beta: 0.75
-  }
-}
-layer {
-  name: "relu5-depthwise”
-  type: "ReLU"
-  bottom: "conv5-depthwise"
-  top: "conv5-depthwise"
-}
-
-layer {
-  name: "conv5-pointwise”
-  type: "Convolution"
-  bottom: "relu5”
-  top: "conv5-pointwise"
-  param {
-    lr_mult: 1
-    decay_mult: 1
-  }
-  param {
-    lr_mult: 2
-    decay_mult: 0
-  }
-  convolution_param {
-    num_output: 256
-    pad: 0
-    kernel_size: 1
-    weight_filler {
-      type: "gaussian"
-      std: 0.01
-    }
-    bias_filler {
-      type: "constant"
-      value: 0
-    }
-  }
-}
-layer {
-  name: "norm5-pointwise”
-  type: "LRN"
-  bottom: "conv5-pointwise"
-  top: "norm5-pointwise”
-  lrn_param {
-    local_size: 5
-    alpha: 0.0001
-    beta: 0.75
-  }
-}
-layer {
-  name: "relu5-pointwise”
-  type: "ReLU"
-  bottom: "conv5-pointwise"
-  top: "conv5-pointwise"
-}
-
-
-
-
-
-
-
-
 
 
 layer {
-  name: "fc7"
+  name: "fc6”
   type: "InnerProduct"
-  bottom: "fc6"
-  top: "fc7"
+  bottom: "pool5"
+  top: "fc6”
   param {
     lr_mult: 1
     decay_mult: 1
@@ -634,47 +395,7 @@ layer {
     decay_mult: 0
   }
   inner_product_param {
-    num_output: 4096
-    weight_filler {
-      type: "gaussian"
-      std: 0.005
-    }
-    bias_filler {
-      type: "constant"
-      value: 0.1
-    }
-  }
-}
-layer {
-  name: "relu7"
-  type: "ReLU"
-  bottom: "fc7"
-  top: "fc7"
-}
-layer {
-  name: "drop7"
-  type: "Dropout"
-  bottom: "fc7"
-  top: "fc7"
-  dropout_param {
-    dropout_ratio: 0.5
-  }
-}
-layer {
-  name: "fc8"
-  type: "InnerProduct"
-  bottom: "fc7"
-  top: "fc8"
-  param {
-    lr_mult: 1
-    decay_mult: 1
-  }
-  param {
-    lr_mult: 2
-    decay_mult: 0
-  }
-  inner_product_param {
-    num_output: 1000
+    num_output: 4
     weight_filler {
       type: "gaussian"
       std: 0.01
@@ -688,7 +409,7 @@ layer {
 layer {
   name: "accuracy"
   type: "Accuracy"
-  bottom: "fc8"
+  bottom: "fc6"
   bottom: "label"
   top: "accuracy"
   include {
@@ -698,7 +419,7 @@ layer {
 layer {
   name: "loss"
   type: "SoftmaxWithLoss"
-  bottom: "fc8"
+  bottom: "fc6”
   bottom: "label"
   top: "loss"
 }

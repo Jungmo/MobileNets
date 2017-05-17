@@ -14,7 +14,7 @@ layer {
   }
   data_param {
     source: "/home/jungmo/Documents/bird/caffe/db/train_imageData_lmDB"
-    batch_size: 256
+    batch_size: 50
     backend: LMDB
   }
 }
@@ -104,7 +104,7 @@ layer {
     pad: 1
     kernel_size: 3
     stride: 1
-    group: 32
+    group: 1
     weight_filler {
       type: "gaussian"
       std: 0.01
@@ -197,7 +197,7 @@ layer {
     pad: 1
     stride: 2
     kernel_size: 3
-    group: 64
+    group: 1
     weight_filler {
       type: "gaussian"
       std: 0.01
@@ -290,7 +290,7 @@ layer {
     num_output: 128
     pad: 1
     kernel_size: 3
-    group: 128
+    group: 1
     weight_filler {
       type: "gaussian"
       std: 0.01
@@ -383,7 +383,7 @@ layer {
     pad: 1
     stride: 2
     kernel_size: 3
-    group: 128
+    group: 1
     weight_filler {
       type: "gaussian"
       std: 0.01
@@ -473,7 +473,7 @@ layer {
     num_output: 256
     pad: 1
     kernel_size: 3
-    group: 256
+    group: 1
     weight_filler {
       type: "gaussian"
       std: 0.01
@@ -564,7 +564,7 @@ layer {
     pad: 1
     stride: 2
     kernel_size: 3
-    group: 256
+    group: 1
     weight_filler {
       type: "gaussian"
       std: 0.01
@@ -654,7 +654,7 @@ layer {
     num_output: 512
     pad: 1
     kernel_size: 3
-    group: 512
+    group: 1
     weight_filler {
       type: "gaussian"
       std: 0.01
@@ -746,7 +746,7 @@ layer {
     num_output: 512
     pad: 1
     kernel_size: 3
-    group: 512
+    group: 1
     weight_filler {
       type: "gaussian"
       std: 0.01
@@ -838,7 +838,7 @@ layer {
     num_output: 512
     pad: 1
     kernel_size: 3
-    group: 512
+    group: 1
     weight_filler {
       type: "gaussian"
       std: 0.01
@@ -930,7 +930,7 @@ layer {
     num_output: 512
     pad: 1
     kernel_size: 3
-    group: 512
+    group: 1
     weight_filler {
       type: "gaussian"
       std: 0.01
@@ -1022,7 +1022,7 @@ layer {
     num_output: 512
     pad: 1
     kernel_size: 3
-    group: 512
+    group: 1
     weight_filler {
       type: "gaussian"
       std: 0.01
@@ -1115,7 +1115,7 @@ layer {
     pad: 1
     stride: 2
     kernel_size: 3
-    group: 512
+    group: 1
     weight_filler {
       type: "gaussian"
       std: 0.01
@@ -1206,7 +1206,7 @@ layer {
     pad: 1
     stride: 1
     kernel_size: 3
-    group: 1024
+    group: 1
     weight_filler {
       type: "gaussian"
       std: 0.01
@@ -1279,6 +1279,9 @@ layer {
   bottom: "norm14-pointwise"
   top: "norm14-pointwise"
 }
+
+
+
 
 layer {
   name: "pool15"

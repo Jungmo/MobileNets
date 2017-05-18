@@ -1,4 +1,5 @@
 name: "MobileNet"
+
 layer {
   name: "data"
   type: "Data"
@@ -14,7 +15,7 @@ layer {
   }
   data_param {
     source: "/home/jungmo/Documents/bird/caffe/db/train_imageData_lmDB"
-    batch_size: 256
+    batch_size: 50
     backend: LMDB
   }
 }
@@ -729,286 +730,286 @@ layer {
   top: "norm8-pointwise"
 }
 
-layer {
-  name: "conv9-depthwise"
-  type: "Convolution"
-  bottom: "norm8-pointwise"
-  top: "conv9-depthwise"
-  param {
-    lr_mult: 1
-    decay_mult: 1
-  }
-  param {
-    lr_mult: 2
-    decay_mult: 0
-  }
-  convolution_param {
-    num_output: 512
-    pad: 1
-    kernel_size: 3
-    group: 512
-    weight_filler {
-      type: "gaussian"
-      std: 0.01
-    }
-    bias_filler {
-      type: "constant"
-      value: 0.1
-    }
-  }
-}
-layer {
-  name: "norm9-depthwise"
-  type: "LRN"
-  bottom: "conv9-depthwise"
-  top: "norm9-depthwise"
-  lrn_param {
-    local_size: 5
-    alpha: 0.0001
-    beta: 0.75
-  }
-}
-layer {
-  name: "relu9-depthwise"
-  type: "ReLU"
-  bottom: "norm9-depthwise"
-  top: "norm9-depthwise"
-}
+# layer {
+#   name: "conv9-depthwise"
+#   type: "Convolution"
+#   bottom: "norm8-pointwise"
+#   top: "conv9-depthwise"
+#   param {
+#     lr_mult: 1
+#     decay_mult: 1
+#   }
+#   param {
+#     lr_mult: 2
+#     decay_mult: 0
+#   }
+#   convolution_param {
+#     num_output: 512
+#     pad: 1
+#     kernel_size: 3
+#     group: 512
+#     weight_filler {
+#       type: "gaussian"
+#       std: 0.01
+#     }
+#     bias_filler {
+#       type: "constant"
+#       value: 0.1
+#     }
+#   }
+# }
+# layer {
+#   name: "norm9-depthwise"
+#   type: "LRN"
+#   bottom: "conv9-depthwise"
+#   top: "norm9-depthwise"
+#   lrn_param {
+#     local_size: 5
+#     alpha: 0.0001
+#     beta: 0.75
+#   }
+# }
+# layer {
+#   name: "relu9-depthwise"
+#   type: "ReLU"
+#   bottom: "norm9-depthwise"
+#   top: "norm9-depthwise"
+# }
 
 
-layer {
-  name: "conv9-pointwise"
-  type: "Convolution"
-  bottom: "norm9-depthwise"
-  top: "conv9-pointwise"
-  param {
-    lr_mult: 1
-    decay_mult: 1
-  }
-  param {
-    lr_mult: 2
-    decay_mult: 0
-  }
-  convolution_param {
-    num_output: 512
-    pad: 0
-    kernel_size: 1
-    weight_filler {
-      type: "gaussian"
-      std: 0.01
-    }
-    bias_filler {
-      type: "constant"
-      value: 0
-    }
-  }
-}
-layer {
-  name: "norm9-pointwise"
-  type: "LRN"
-  bottom: "conv9-pointwise"
-  top: "norm9-pointwise"
-  lrn_param {
-    local_size: 5
-    alpha: 0.0001
-    beta: 0.75
-  }
-}
-layer {
-  name: "relu9-pointwise"
-  type: "ReLU"
-  bottom: "norm9-pointwise"
-  top: "norm9-pointwise"
-}
+# layer {
+#   name: "conv9-pointwise"
+#   type: "Convolution"
+#   bottom: "norm9-depthwise"
+#   top: "conv9-pointwise"
+#   param {
+#     lr_mult: 1
+#     decay_mult: 1
+#   }
+#   param {
+#     lr_mult: 2
+#     decay_mult: 0
+#   }
+#   convolution_param {
+#     num_output: 512
+#     pad: 0
+#     kernel_size: 1
+#     weight_filler {
+#       type: "gaussian"
+#       std: 0.01
+#     }
+#     bias_filler {
+#       type: "constant"
+#       value: 0
+#     }
+#   }
+# }
+# layer {
+#   name: "norm9-pointwise"
+#   type: "LRN"
+#   bottom: "conv9-pointwise"
+#   top: "norm9-pointwise"
+#   lrn_param {
+#     local_size: 5
+#     alpha: 0.0001
+#     beta: 0.75
+#   }
+# }
+# layer {
+#   name: "relu9-pointwise"
+#   type: "ReLU"
+#   bottom: "norm9-pointwise"
+#   top: "norm9-pointwise"
+# }
 
-layer {
-  name: "conv10-depthwise"
-  type: "Convolution"
-  bottom: "norm9-pointwise"
-  top: "conv10-depthwise"
-  param {
-    lr_mult: 1
-    decay_mult: 1
-  }
-  param {
-    lr_mult: 2
-    decay_mult: 0
-  }
-  convolution_param {
-    num_output: 512
-    pad: 1
-    kernel_size: 3
-    group: 512
-    weight_filler {
-      type: "gaussian"
-      std: 0.01
-    }
-    bias_filler {
-      type: "constant"
-      value: 0.1
-    }
-  }
-}
-layer {
-  name: "norm10-depthwise"
-  type: "LRN"
-  bottom: "conv10-depthwise"
-  top: "norm10-depthwise"
-  lrn_param {
-    local_size: 5
-    alpha: 0.0001
-    beta: 0.75
-  }
-}
-layer {
-  name: "relu10-depthwise"
-  type: "ReLU"
-  bottom: "norm10-depthwise"
-  top: "norm10-depthwise"
-}
-
-
-layer {
-  name: "conv10-pointwise"
-  type: "Convolution"
-  bottom: "norm10-depthwise"
-  top: "conv10-pointwise"
-  param {
-    lr_mult: 1
-    decay_mult: 1
-  }
-  param {
-    lr_mult: 2
-    decay_mult: 0
-  }
-  convolution_param {
-    num_output: 512
-    pad: 0
-    kernel_size: 1
-    weight_filler {
-      type: "gaussian"
-      std: 0.01
-    }
-    bias_filler {
-      type: "constant"
-      value: 0
-    }
-  }
-}
-layer {
-  name: "norm10-pointwise"
-  type: "LRN"
-  bottom: "conv10-pointwise"
-  top: "norm10-pointwise"
-  lrn_param {
-    local_size: 5
-    alpha: 0.0001
-    beta: 0.75
-  }
-}
-layer {
-  name: "relu10-pointwise"
-  type: "ReLU"
-  bottom: "norm10-pointwise"
-  top: "norm10-pointwise"
-}
-
-layer {
-  name: "conv11-depthwise"
-  type: "Convolution"
-  bottom: "norm10-pointwise"
-  top: "conv11-depthwise"
-  param {
-    lr_mult: 1
-    decay_mult: 1
-  }
-  param {
-    lr_mult: 2
-    decay_mult: 0
-  }
-  convolution_param {
-    num_output: 512
-    pad: 1
-    kernel_size: 3
-    group: 512
-    weight_filler {
-      type: "gaussian"
-      std: 0.01
-    }
-    bias_filler {
-      type: "constant"
-      value: 0.1
-    }
-  }
-}
-layer {
-  name: "norm11-depthwise"
-  type: "LRN"
-  bottom: "conv11-depthwise"
-  top: "norm11-depthwise"
-  lrn_param {
-    local_size: 5
-    alpha: 0.0001
-    beta: 0.75
-  }
-}
-layer {
-  name: "relu11-depthwise"
-  type: "ReLU"
-  bottom: "norm11-depthwise"
-  top: "norm11-depthwise"
-}
+# layer {
+#   name: "conv10-depthwise"
+#   type: "Convolution"
+#   bottom: "norm9-pointwise"
+#   top: "conv10-depthwise"
+#   param {
+#     lr_mult: 1
+#     decay_mult: 1
+#   }
+#   param {
+#     lr_mult: 2
+#     decay_mult: 0
+#   }
+#   convolution_param {
+#     num_output: 512
+#     pad: 1
+#     kernel_size: 3
+#     group: 512
+#     weight_filler {
+#       type: "gaussian"
+#       std: 0.01
+#     }
+#     bias_filler {
+#       type: "constant"
+#       value: 0.1
+#     }
+#   }
+# }
+# layer {
+#   name: "norm10-depthwise"
+#   type: "LRN"
+#   bottom: "conv10-depthwise"
+#   top: "norm10-depthwise"
+#   lrn_param {
+#     local_size: 5
+#     alpha: 0.0001
+#     beta: 0.75
+#   }
+# }
+# layer {
+#   name: "relu10-depthwise"
+#   type: "ReLU"
+#   bottom: "norm10-depthwise"
+#   top: "norm10-depthwise"
+# }
 
 
-layer {
-  name: "conv11-pointwise"
-  type: "Convolution"
-  bottom: "norm11-depthwise"
-  top: "conv11-pointwise"
-  param {
-    lr_mult: 1
-    decay_mult: 1
-  }
-  param {
-    lr_mult: 2
-    decay_mult: 0
-  }
-  convolution_param {
-    num_output: 512
-    pad: 0
-    kernel_size: 1
-    weight_filler {
-      type: "gaussian"
-      std: 0.01
-    }
-    bias_filler {
-      type: "constant"
-      value: 0
-    }
-  }
-}
-layer {
-  name: "norm11-pointwise"
-  type: "LRN"
-  bottom: "conv11-pointwise"
-  top: "norm11-pointwise"
-  lrn_param {
-    local_size: 5
-    alpha: 0.0001
-    beta: 0.75
-  }
-}
-layer {
-  name: "relu11-pointwise"
-  type: "ReLU"
-  bottom: "norm11-pointwise"
-  top: "norm11-pointwise"
-}
+# layer {
+#   name: "conv10-pointwise"
+#   type: "Convolution"
+#   bottom: "norm10-depthwise"
+#   top: "conv10-pointwise"
+#   param {
+#     lr_mult: 1
+#     decay_mult: 1
+#   }
+#   param {
+#     lr_mult: 2
+#     decay_mult: 0
+#   }
+#   convolution_param {
+#     num_output: 512
+#     pad: 0
+#     kernel_size: 1
+#     weight_filler {
+#       type: "gaussian"
+#       std: 0.01
+#     }
+#     bias_filler {
+#       type: "constant"
+#       value: 0
+#     }
+#   }
+# }
+# layer {
+#   name: "norm10-pointwise"
+#   type: "LRN"
+#   bottom: "conv10-pointwise"
+#   top: "norm10-pointwise"
+#   lrn_param {
+#     local_size: 5
+#     alpha: 0.0001
+#     beta: 0.75
+#   }
+# }
+# layer {
+#   name: "relu10-pointwise"
+#   type: "ReLU"
+#   bottom: "norm10-pointwise"
+#   top: "norm10-pointwise"
+# }
+
+# layer {
+#   name: "conv11-depthwise"
+#   type: "Convolution"
+#   bottom: "norm10-pointwise"
+#   top: "conv11-depthwise"
+#   param {
+#     lr_mult: 1
+#     decay_mult: 1
+#   }
+#   param {
+#     lr_mult: 2
+#     decay_mult: 0
+#   }
+#   convolution_param {
+#     num_output: 512
+#     pad: 1
+#     kernel_size: 3
+#     group: 512
+#     weight_filler {
+#       type: "gaussian"
+#       std: 0.01
+#     }
+#     bias_filler {
+#       type: "constant"
+#       value: 0.1
+#     }
+#   }
+# }
+# layer {
+#   name: "norm11-depthwise"
+#   type: "LRN"
+#   bottom: "conv11-depthwise"
+#   top: "norm11-depthwise"
+#   lrn_param {
+#     local_size: 5
+#     alpha: 0.0001
+#     beta: 0.75
+#   }
+# }
+# layer {
+#   name: "relu11-depthwise"
+#   type: "ReLU"
+#   bottom: "norm11-depthwise"
+#   top: "norm11-depthwise"
+# }
+
+
+# layer {
+#   name: "conv11-pointwise"
+#   type: "Convolution"
+#   bottom: "norm11-depthwise"
+#   top: "conv11-pointwise"
+#   param {
+#     lr_mult: 1
+#     decay_mult: 1
+#   }
+#   param {
+#     lr_mult: 2
+#     decay_mult: 0
+#   }
+#   convolution_param {
+#     num_output: 512
+#     pad: 0
+#     kernel_size: 1
+#     weight_filler {
+#       type: "gaussian"
+#       std: 0.01
+#     }
+#     bias_filler {
+#       type: "constant"
+#       value: 0
+#     }
+#   }
+# }
+# layer {
+#   name: "norm11-pointwise"
+#   type: "LRN"
+#   bottom: "conv11-pointwise"
+#   top: "norm11-pointwise"
+#   lrn_param {
+#     local_size: 5
+#     alpha: 0.0001
+#     beta: 0.75
+#   }
+# }
+# layer {
+#   name: "relu11-pointwise"
+#   type: "ReLU"
+#   bottom: "norm11-pointwise"
+#   top: "norm11-pointwise"
+# }
 
 layer {
   name: "conv12-depthwise"
   type: "Convolution"
-  bottom: "norm11-pointwise"
+  bottom: "norm8-pointwise"
   top: "conv12-depthwise"
   param {
     lr_mult: 1

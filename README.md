@@ -1,3 +1,5 @@
+# This model doesn't work yet.
+
 # MobileNets
 MobileNets using Caffe
 
